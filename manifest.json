@@ -1,0 +1,21 @@
+{
+  "short_name": "NeWMen",
+  "name": "NeWMen",
+  "description": "NeWMen est une boutique de luxe pour hommes, offrant une sélection exclusive de costumes italiens sur mesure et de montres de collection rares. Plongez dans un univers d'élégance brutaliste et minimaliste, où l'exclusivité et la qualité sont les maîtres-mots pour une clientèle d'élite.",
+  "start_url": "/?source=pwa",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#333333",
+  "icons": [
+    {
+      "src": "/assets/icons/icon-192x192.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/assets/icons/icon-512x512.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ]
+}

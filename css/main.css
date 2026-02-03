@@ -1,0 +1,456 @@
+@import "../../../../packages/zflex-core/src/css/system.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===================================================================
+   MOBILE OVERFLOW FIX
+   =================================================================== */
+html,
+body {
+  overflow-x: clip; /* clip doesn't break sticky unlike hidden */
+  max-width: 100vw;
+}
+
+section,
+.container {
+  max-width: 100%;
+}
+
+[data-zflex-section] {
+  max-width: 100vw;
+}
+
+/* PULSE ANIMATIONS */
+@keyframes pulse-energy {
+  0% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+  50% {
+    transform: scale(1.05);
+    filter: brightness(1.2) contrast(1.1);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+  }
+}
+
+.animate-pulse-energy {
+  animation: pulse-energy 0.5s infinite steps(2);
+}
+
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+@layer utilities {
+  .border-hard {
+    border-width: var(--border-width, 2px);
+    border-style: solid;
+    border-color: var(--card-border-color);
+  }
+
+  .border-t-hard {
+    border-top: var(--border-width, 2px) solid var(--card-border-color);
+  }
+
+  .border-b-hard {
+    border-bottom: var(--border-width, 2px) solid var(--card-border-color);
+  }
+
+  .border-l-hard {
+    border-left: var(--border-width, 2px) solid var(--card-border-color);
+  }
+
+  .border-r-hard {
+    border-right: var(--border-width, 2px) solid var(--card-border-color);
+  }
+
+  .shadow-hard {
+    box-shadow: 4px 4px 0px 0px currentColor;
+  }
+
+  .shadow-hard-hover:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px 0px currentColor;
+  }
+
+  .text-outline {
+    -webkit-text-stroke: 1px currentColor;
+    color: transparent;
+  }
+
+  /* VANDAL UTILITIES */
+  .bg-primary {
+    background-color: var(--primary-color);
+  }
+  .text-primary {
+    color: var(--primary-color);
+  }
+  .border-primary {
+    border-color: var(--primary-color);
+  }
+
+  .bg-secondary {
+    background-color: var(--secondary-color);
+  }
+  .text-secondary {
+    color: var(--secondary-color);
+  }
+
+  .bg-accent {
+    background-color: var(--accent-color);
+  }
+  .text-accent {
+    color: var(--accent-color);
+  }
+
+  .text-muted {
+    color: var(--muted-color);
+  }
+  .bg-muted {
+    background-color: var(--muted-color);
+  }
+
+  .bg-background {
+    background-color: var(--bg-color);
+  }
+  .text-text {
+    color: var(--text-color);
+  }
+
+  /* DARK MODE GLOBAL OVERRIDES (VANDAL SYNC) */
+  .dark {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+  }
+
+  .dark .bg-white {
+    background-color: var(--background-600, #1a1a1a);
+    color: var(--text-color);
+  }
+
+  .dark .text-black {
+    color: var(--text-color);
+  }
+
+  .dark .border-black {
+    border-color: var(--text-color);
+  }
+}
+
+/* MARQUEE ANIMATION */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 20s linear infinite;
+}
+
+.pulse-marquee {
+  display: inline-block;
+  animation-name: marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  /* Duration is set via inline style */
+}
+
+/* GLOBAL UI - BUTTON RADIUS */
+button,
+.btn,
+.mat-mdc-button-base {
+  border-radius: var(--btn-radius, 0px);
+  transition: border-radius 0.3s ease;
+}
+
+/* ===================================================================
+   HERO VARIANTS (Dynamic switching via data-variant)
+   =================================================================== */
+
+/* Default state: hide background and split image */
+section[data-variant] .hero-bg {
+  display: none;
+}
+
+section[data-variant] .hero-split-image {
+  display: none;
+}
+
+/* Glitch variant: show background image, center content, huge typography */
+section[data-variant="glitch"] .hero-bg {
+  display: block;
+}
+
+section[data-variant="glitch"] .hero-grid {
+  text-align: center;
+}
+
+section[data-variant="glitch"] .hero-title {
+  @apply text-7xl md:text-9xl;
+  animation: glitch 1s linear infinite;
+}
+
+section[data-variant="glitch"] .hero-subtitle {
+  @apply mx-auto max-w-2xl;
+}
+
+section[data-variant="glitch"] .hero-cta {
+  @apply flex justify-center;
+}
+
+/* BigType variant: no background, max width container, XXL text */
+section[data-variant="bigtype"] .hero-grid {
+  @apply max-w-4xl;
+}
+
+section[data-variant="bigtype"] .hero-title {
+  @apply text-8xl md:text-[12rem];
+}
+
+section[data-variant="bigtype"] .hero-subtitle {
+  @apply max-w-xl;
+}
+
+section[data-variant="bigtype"] .hero-cta {
+  @apply flex;
+}
+
+/* Split variant: 2-column layout, image on right */
+section[data-variant="split"] .hero-grid {
+  @apply lg:grid-cols-2 gap-12 items-center;
+}
+
+section[data-variant="split"] .hero-split-image {
+  display: block;
+}
+
+section[data-variant="split"] .hero-content {
+  @apply text-left;
+}
+
+section[data-variant="split"] .hero-title {
+  @apply text-6xl md:text-8xl;
+}
+
+section[data-variant="split"] .hero-subtitle {
+  @apply max-w-xl;
+}
+
+section[data-variant="split"] .hero-cta {
+  @apply flex;
+}
+
+/* ===================================================================
+   HEADER VARIANTS
+   =================================================================== */
+
+header[data-variant] .header-tape {
+  @apply hidden;
+}
+
+header[data-variant="tape"] .header-tape {
+  @apply block;
+}
+
+header[data-variant="minimal"] .container {
+  @apply py-2;
+}
+
+header[data-variant="brutal"] .container,
+header[data-variant="tape"] .container {
+  @apply py-4;
+}
+
+/* ===================================================================
+   PAIN POINTS VARIANTS
+   =================================================================== */
+
+section[data-variant="brutal"] .pain-points-container {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-0 border-t-hard border-l-hard;
+}
+
+section[data-variant="brutal"] .pain-point-item {
+  @apply p-12 border-r-hard border-b-hard hover:bg-black hover:text-white transition-all;
+}
+
+section[data-variant="brutal"] .pain-point-index {
+  @apply mb-2;
+}
+
+section[data-variant="brutal"] .pulse-icon {
+  @apply mb-4 text-secondary;
+}
+
+section[data-variant="list"] .pain-points-container {
+  @apply space-y-8;
+}
+
+section[data-variant="list"] .pain-point-item {
+  @apply flex items-start gap-8 border-b-hard pb-8;
+}
+
+section[data-variant="list"] .pain-point-index {
+  @apply text-secondary;
+}
+
+section[data-variant="list"] .pulse-icon {
+  @apply hidden; /* or list specific style */
+}
+
+/* ===================================================================
+   PRODUCT REVEAL VARIANTS
+   =================================================================== */
+
+section[data-variant="brutal"].reveal-section {
+  @apply text-center;
+}
+
+section[data-variant="brutal"] .reveal-title {
+  @apply text-7xl md:text-[10rem];
+}
+
+section[data-variant="brutal"] .reveal-description {
+  @apply max-w-2xl mx-auto;
+}
+
+section[data-variant="brutal"] .reveal-actions {
+  @apply justify-center;
+}
+
+section[data-variant="brutal"] .reveal-image {
+  @apply mb-12;
+}
+
+section[data-variant="side"].reveal-section {
+  @apply text-left;
+}
+
+section[data-variant="side"] .reveal-grid {
+  @apply grid grid-cols-1 lg:grid-cols-2 gap-16 items-center;
+}
+
+section[data-variant="side"] .reveal-content {
+  @apply order-last;
+}
+
+section[data-variant="side"] .reveal-title {
+  @apply text-5xl md:text-8xl;
+}
+
+section[data-variant="side"] .reveal-actions {
+  @apply justify-start;
+}
+
+section[data-variant="side"] .reveal-image {
+  @apply mb-0;
+}
+
+/* ===================================================================
+   FINAL CTA VARIANTS
+   =================================================================== */
+
+section[data-variant="brutal"].final-cta-section {
+  @apply bg-secondary py-32 text-primary;
+}
+
+section[data-variant="brutal"] .final-cta-title {
+  @apply text-7xl md:text-[10rem];
+}
+
+section[data-variant="brutal"] .final-cta-link {
+  @apply inline-block bg-primary text-secondary px-16 py-6 font-black text-xl uppercase italic hover:scale-110 transition-transform;
+}
+
+section[data-variant="minimal"].final-cta-section {
+  @apply py-12 bg-background;
+}
+
+section[data-variant="minimal"] .final-cta-title {
+  @apply text-4xl;
+}
+
+section[data-variant="minimal"] .final-cta-link {
+  @apply font-black uppercase underline hover:text-secondary;
+}
+
+/* ===================================================================
+   PRODUCT CARD VARIANTS
+   =================================================================== */
+
+.product-card[data-variant="hardborder"] {
+  background-color: var(--bg-color);
+}
+
+.product-card[data-variant="hardborder"]:hover {
+  background-color: color-mix(in srgb, var(--secondary-color), transparent 95%);
+}
+
+.product-card[data-variant="clean"] {
+  @apply bg-black text-white border-0 hover:bg-neutral-900 overflow-hidden;
+}
+
+.product-card[data-variant="clean"] .text-muted {
+  color: color-mix(in srgb, white, transparent 50%);
+}
+
+.product-card[data-variant="glass"] {
+  background-color: color-mix(in srgb, white, transparent 90%);
+  backdrop-filter: blur(12px);
+  border: 1px solid color-mix(in srgb, white, transparent 80%);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+/* ===================================================================
+   FOOTER VARIANTS
+   =================================================================== */
+
+footer[data-variant="minimal"] {
+  @apply py-8 border-t;
+  border-color: color-mix(in srgb, black, transparent 90%);
+}
+
+/* Glitch animation */
+@keyframes glitch {
+  0%,
+  100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+}
